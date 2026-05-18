@@ -46,3 +46,32 @@ PainelAnaliseDisney/
 ├── 📄 App.xaml                 # Declaração de recursos globais do WPF
 ├── 📄 App.xaml.cs              # Inicialização customizada do ciclo de vida do app
 └── 📄 PainelAnaliseDisney.csproj # Gerenciador de pacotes e versão do framework (.NET 8)
+
+
+## 🛠️ Desafios Enfrentados & Soluções Práticas
+
+Desenvolver esta integração trouxe alguns problemas reais de arquitetura e lógica de programação que exigiram investigação detalhada para serem resolvidos:
+
+### 1. Incompatibilidade de Nomenclatura no JSON
+* **Problema:** O formato dos dados fornecidos pela API utilizava padrão de escrita e nomes em inglês (`name`, `imageUrl`, `tvShows`), enquanto os atributos das minhas classes e componentes visuais estavam modelados em português. Isso fez com que os dados chegassem, mas os campos ficassem em branco na tela.
+* **Solução:** Ajustei a serialização de dados mapeando explicitamente o nome de cada propriedade recebida com o atributo correspondente no C#, corrigindo a conversão do JSON e garantindo a exibição das fotos e descrições dos personagens.
+
+### 2. Interface de Usuário Congelada
+* **Problema:** Nas primeiras tentativas, ao efetuar a busca, a janela do Windows simplesmente travava por alguns segundos e o mouse exibia o ícone de carregamento do sistema. Isso acontecia porque a chamada da API e a gravação individual no Firebase rodavam na mesma linha de execução da interface gráfica (UI Thread).
+* **Solução:** Refatorei o fluxo de chamadas nos repositórios utilizando programação assíncrona (`async`/`await`). Dessa forma, a busca passou a rodar em segundo plano e consegui implementar uma propriedade booleana ligada a um aviso visual na tela, notificando o progresso ao usuário sem interromper a fluidez do sistema.
+
+### 3. Falha de Comunicação por Erro de Vínculo (*Binding*)
+* **Problema:** Ao implementar o novo contêiner visual de estatísticas no XAML, os botões principais de controle pararam de responder aos cliques. Ao depurar o Output do Visual Studio, notei erros do tipo `BindingExpression path error: 'BuscarDadosCommand' property not found`.
+* **Solução:** Identifiquei que o botão na camada de visão procurava por uma propriedade de comando com nomenclatura incorreta na camada de controle (ViewModel). Corrigi a tag do XAML para apontar exatamente para o nome do comando exposto no código C#, reestabelecendo a comunicação da tela.
+
+### 4. Validação das Gravações na Nuvem
+* **Problema:** No início, não havia certeza se as chaves e valores enviados estavam estruturando o banco corretamente ou se as requisições estavam sendo rejeitadas de forma silenciosa.
+* **Solução:** Criei blocos de tratamento de exceção (`try-catch`) nos métodos de gravação para capturar possíveis erros de rede e passei a monitorar o comportamento e as árvores de nós JSON em tempo real diretamente pelo console de gerenciamento web do Firebase.
+
+---
+
+## 🔧 Como Executar a Aplicação
+
+1. Baixe ou clone o repositório em seu ambiente:
+   ```bash
+   git clone [https://github.com/seu-usuario/PainelAnaliseDisney.git](https://github.com/BrunoMaiaSenai/PainelAnaliseDisney.git)
