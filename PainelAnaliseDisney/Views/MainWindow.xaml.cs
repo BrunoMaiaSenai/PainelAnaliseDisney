@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using PainelAnaliseDisney.ViewModels;
 
-namespace PainelAnaliseDisney
+namespace PainelAnaliseDisney.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

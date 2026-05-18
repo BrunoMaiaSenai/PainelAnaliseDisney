@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using PainelAnaliseDisney.Models;
 using PainelAnaliseDisney.Data;
 
 namespace PainelAnaliseDisney.Services
 {
-    internal class FilmeApiService
+    public class FilmeApiService
     {
         private readonly HttpClient _httpClient;
 
@@ -21,13 +22,29 @@ namespace PainelAnaliseDisney.Services
         {
             try
             {
-                // Consome a lista de filmes/personagens do endpoint configurado
-                var resposta = await _httpClient.GetFromJsonAsync<List<Filme>>(Database.ApiUrl);
-                return resposta ?? new List<Filme>();
+                // 1. Baixa o JSON bruto como string para evitar falhas de rede ocultas
+                string jsonRaw = await _httpClient.GetStringAsync(Database.ApiUrl);
+
+                // 2. Configura o conversor para tolerar maiúsculas/minúsculas
+                var opcoes = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                // 3. Converte o JSON bruto para a nossa estrutura ApiResponse
+                var respostaRaiz = JsonSerializer.Deserialize<ApiResponse>(jsonRaw, opcoes);
+
+                if (respostaRaiz != null && respostaRaiz.Data != null)
+                {
+                    return respostaRaiz.Data;
+                }
+
+                return new List<Filme>();
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Erro ao consumir API: {ex.Message}");
+                // Esse log vai imprimir no Console de Saída o motivo exato caso falte alguma propriedade
+                Console.WriteLine($"Erro crítico na desserialização: {ex.Message}");
                 return new List<Filme>();
             }
         }

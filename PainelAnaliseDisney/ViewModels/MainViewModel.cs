@@ -53,15 +53,46 @@ namespace PainelAnaliseDisney.ViewModels
             IsCarregando = true;
             Dados.Clear();
 
-            var resultado = await _repository.ObterEGravarFilmesAsync();
-
-            foreach (var filme in resultado)
+            try
             {
-                Dados.Add(filme);
+                var resultado = await _repository.ObterEGravarFilmesAsync();
+
+                if (resultado == null)
+                {
+                    System.Windows.MessageBox.Show(
+                        "O repositório retornou um valor NULO (Null). Verifique se o método ObterEGravarFilmesAsync está repassando os dados corretamente do serviço.",
+                        "Diagnóstico Técnico",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning);
+                }
+                else if (resultado.Count == 0)
+                {
+                    System.Windows.MessageBox.Show(
+                        "Conexão com sucesso, mas o servidor retornou uma lista com ZERO registros. O banco de dados pode estar limpo no momento.",
+                        "Diagnóstico Técnico",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Information);
+                }
+                else
+                {
+                    foreach (var filme in resultado)
+                    {
+                        Dados.Add(filme);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    $"Ocorreu um erro inesperado na ViewModel: {ex.Message}",
+                    "Erro Crítico",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
 
             IsCarregando = false;
         }
+
 
         private void ExecutarLimpeza()
         {
