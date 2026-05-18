@@ -46,6 +46,8 @@ PainelAnaliseDisney/
 ├── 📄 App.xaml                 # Declaração de recursos globais do WPF
 ├── 📄 App.xaml.cs              # Inicialização customizada do ciclo de vida do app
 └── 📄 PainelAnaliseDisney.csproj # Gerenciador de pacotes e versão do framework (.NET 8)
+```text
+
 
 
 ## 🛠️ Desafios Enfrentados & Soluções Práticas
