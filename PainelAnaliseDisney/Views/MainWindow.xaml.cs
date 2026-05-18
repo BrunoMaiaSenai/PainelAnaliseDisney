@@ -15,6 +15,8 @@ namespace PainelAnaliseDisney.Views
             // Ligação crucial do padrão arquitetural MVVM:
             // Define a MainViewModel como a fonte oficial de dados e comandos desta View.
             this.DataContext = new MainViewModel();
+
+
         }
     }
 }
