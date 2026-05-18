@@ -73,4 +73,4 @@ Desenvolver esta integração trouxe alguns problemas reais de arquitetura e ló
 ## 🔧 Como Executar a Aplicação
 
 1. Baixe ou clone o repositório em seu ambiente:
-   git clone [https://github.com/seu-usuario/PainelAnaliseDisney.git](https://github.com/BrunoMaiaSenai/PainelAnaliseDisney.git)
+   git clone [https://github.com/BrunoMaiaSenai/PainelAnaliseDisney.git](https://github.com/BrunoMaiaSenai/PainelAnaliseDisney.git)
