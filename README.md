@@ -6,7 +6,8 @@ Este projeto foi desenvolvido como parte prática do meu aprendizado em Desenvol
 O projeto utiliza a tecnologia **WPF (Windows Presentation Foundation)** com **.NET 8** e adota o padrão de arquitetura **MVVM**, garantindo a separação de responsabilidades e uma interface de usuário responsiva.
 
 ---
-Planejamento
+
+## Planejamento
 <img width="1587" height="795" alt="01" src="https://github.com/user-attachments/assets/d9f5cdda-e2d9-42ee-9f3e-b27600b20ecf" />
 
 <img width="1587" height="788" alt="02" src="https://github.com/user-attachments/assets/30b6bfd7-6e1c-4f3f-8883-a6ff2514ad98" />
