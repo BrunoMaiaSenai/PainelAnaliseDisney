@@ -5,22 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PainelAnaliseDisney"
         mc:Ignorable="d"
-        Title="Painel de Analise Disney" Height="589" Width="800">
-    
-    
-    <!-- Estilos e recursos da janela -->
+        Title="Painel de Análise Disney - Relatórios" Height="650" Width="850" WindowStartupLocation="CenterScreen">
+
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#007ACC"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" >
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <!-- Efeito Hover -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="#005A9E"/>
                             </Trigger>
@@ -31,60 +32,158 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="#F5F6F8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- StackPanel para busca de locais e resultados -->
-        <StackPanel Grid.Column="0" Margin="10">
-            <TextBlock Text="Buscar Filmes:" FontWeight="Bold" FontSize="14" Margin="0,0,0,5" />
+        <Border Grid.Row="0" Background="White" Margin="15,15,15,5" CornerRadius="5" Padding="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <UniformGrid Columns="2">
-                <Button Style="{StaticResource ButtonStyle}" Content="Buscar" FontWeight="Bold" Margin="0,10,5,10" Height="38" Command="{Binding BuscarCommand}" />
-                <Button Style="{StaticResource ButtonStyle}" Content="Limpar" FontWeight="Bold" Margin="5,10,0,10" Height="38" Command="{Binding LimparCommand}" />
-            </UniformGrid>
-            <!-- Lista de Filmes encontrados -->
-            <TextBlock Text="Filmes Encontrados:" FontWeight="Bold" FontSize="12" Margin="0,5" />
-            <ListBox ItemsSource="{Binding Dados}" Height="250">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Painel Inteligente de Integração Disney API" FontWeight="Bold" FontSize="16" Foreground="#111" />
+                    <TextBlock Text="Sincroniza dados da API REST e popula relatórios analíticos no Firebase Realtime DB" FontSize="11" Foreground="Gray" Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <UniformGrid Grid.Column="1" Columns="2" Width="220" Height="36">
+                    <Button Style="{StaticResource ButtonStyle}" Content="Buscar Dados" FontWeight="Bold" Margin="0,0,5,0" Command="{Binding BuscarCommand}" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Limpar View" Background="#D13438" FontWeight="Bold" Margin="5,0,0,0" Command="{Binding LimparCommand}" />
+                </UniformGrid>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="15,5,15,15">
+            <TextBlock Text="Carregando e integrando dados com Firebase... Por favor, aguarde." 
+                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
+                       FontSize="14" FontWeight="SemiBold" Foreground="#007ACC"
+                       Visibility="{Binding IsCarregando, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <ListBox ItemsSource="{Binding Dados}" BorderThickness="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="0,0,0,10"/>
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="#EAEAEA" BorderThickness="1">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" Padding="10">
+
+                        <Border Padding="15">
+
                             <Grid>
+
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="{Binding Id}" FontWeight="Bold" Foreground="DarkBlue" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                                <Border Grid.Column="0"
+                        Width="70"
+                        Height="70"
+                        CornerRadius="5"
+                        Background="#EEE"
+                        VerticalAlignment="Center">
 
-                                <StackPanel Grid.Column="1">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Logradouro}" FontWeight="Bold" FontSize="14"/>
-                                        <TextBlock Text=", N°: " FontWeight="Bold" Margin="5,0,0,0"/>
-                                        <TextBlock Text="{Binding Numero}" FontWeight="Bold"/>
-                                    </StackPanel>
+                                    <Image Source="{Binding ImageUrl,
+                                    TargetNullValue={x:Null},
+                                    FallbackValue={x:Null}}"
+                           Stretch="UniformToFill"
+                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </Border>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
-                                        <TextBlock Text="Bairro: " Foreground="Gray"/>
-                                        <TextBlock Text="{Binding Bairro}" Margin="0,0,10,0"/>
-                                        <TextBlock Text="CEP: " Foreground="Gray"/>
-                                        <TextBlock Text="{Binding CEP}" Margin="0,0,10,0"/>
-                                        <TextBlock Text="Lat: " FontSize="11" Foreground="Gray"/>
-                                        <TextBlock Text="{Binding Latitude}" FontSize="11" Foreground="Gray" Margin="0,0,10,0"/>
-                                        <TextBlock Text="Long: " FontSize="11" Foreground="Gray"/>
-                                        <TextBlock Text="{Binding Longitude}" FontSize="11" Foreground="Gray"/>
-                                    </StackPanel>
+                                <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+
+                                    <TextBlock Text="ID"
+                               FontSize="10"
+                               Foreground="Gray"
+                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="{Binding Id}"
+                               FontWeight="Bold"
+                               FontSize="15"
+                               Foreground="#007ACC"
+                               HorizontalAlignment="Center"/>
                                 </StackPanel>
+
+                                <StackPanel Grid.Column="2"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center">
+
+                                    <Grid>
+                                        <TextBlock Text="{Binding Name}"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Foreground="#222"/>
+
+                                        <TextBlock Text="{Binding Timestamp,
+                                          StringFormat='Sincronizado em: \{0\}'}"
+                                   FontSize="11"
+                                   Foreground="DarkGreen"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"/>
+                                    </Grid>
+
+                                    <WrapPanel Margin="0,5,0,0">
+                                        <TextBlock Text="Filmes: "
+                                   FontWeight="SemiBold"
+                                   Foreground="#555"/>
+
+                                        <TextBlock Text="{Binding Films,
+                                          TargetNullValue='Nenhum'}"
+                                   Margin="0,0,15,0"
+                                   Foreground="#333"
+                                   TextTrimming="CharacterEllipsis"
+                                   MaxWidth="500"/>
+                                    </WrapPanel>
+
+                                    <WrapPanel Margin="0,2,0,0">
+
+                                        <TextBlock Text="Séries de TV: "
+                                   FontWeight="SemiBold"
+                                   Foreground="#555"/>
+
+                                        <TextBlock Text="{Binding TvShows,
+                                          TargetNullValue='Nenhuma'}"
+                                   Margin="0,0,15,0"
+                                   Foreground="#333"/>
+
+                                        <TextBlock Text="Curtas: "
+                                   FontWeight="SemiBold"
+                                   Foreground="#555"/>
+
+                                        <TextBlock Text="{Binding ShortFilms,
+                                          TargetNullValue='Nenhum'}"
+                                   Foreground="#333"/>
+                                    </WrapPanel>
+
+                                </StackPanel>
+
                             </Grid>
+
                         </Border>
+
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </StackPanel>
-        
-        
-
+        </Grid>
     </Grid>
 </Window>
