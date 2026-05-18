@@ -46,7 +46,7 @@ PainelAnaliseDisney/
 ├── 📄 App.xaml                 # Declaração de recursos globais do WPF
 ├── 📄 App.xaml.cs              # Inicialização customizada do ciclo de vida do app
 └── 📄 PainelAnaliseDisney.csproj # Gerenciador de pacotes e versão do framework (.NET 8)
-```text
+´´´text
 
 
 
@@ -75,5 +75,4 @@ Desenvolver esta integração trouxe alguns problemas reais de arquitetura e ló
 ## 🔧 Como Executar a Aplicação
 
 1. Baixe ou clone o repositório em seu ambiente:
-   ```bash
    git clone [https://github.com/seu-usuario/PainelAnaliseDisney.git](https://github.com/BrunoMaiaSenai/PainelAnaliseDisney.git)
