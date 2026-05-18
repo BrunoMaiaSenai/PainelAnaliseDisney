@@ -1,3 +1,4 @@
+
 # 📊 Painel de Análise Disney & Auditoria Firebase
 
 Este projeto foi desenvolvido como parte prática do meu aprendizado em Desenvolvimento de Sistemas. A proposta principal foi construir um ecossistema completo que consome dados de uma API, aplica regras de negócio para extrair estatísticas de mídias e armazena um histórico de consultas (auditoria) em um banco de dados em nuvem.
@@ -5,6 +6,10 @@ Este projeto foi desenvolvido como parte prática do meu aprendizado em Desenvol
 O projeto utiliza a tecnologia **WPF (Windows Presentation Foundation)** com **.NET 8** e adota o padrão de arquitetura **MVVM**, garantindo a separação de responsabilidades e uma interface de usuário responsiva.
 
 ---
+Planejamento
+<img width="1587" height="795" alt="01" src="https://github.com/user-attachments/assets/d9f5cdda-e2d9-42ee-9f3e-b27600b20ecf" />
+
+<img width="1587" height="788" alt="02" src="https://github.com/user-attachments/assets/30b6bfd7-6e1c-4f3f-8883-a6ff2514ad98" />
 
 ## 🚀 Funcionalidades da Aplicação
 
